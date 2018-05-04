@@ -40,7 +40,7 @@ public class GT4500 implements SpaceShip {
     
     secondaryTorpNotEmpty = ! secondaryTorpedoStore.isEmpty();
     primaryTorpNotEmpty = ! primaryTorpedoStore.isEmpty();
-    allCondition = primaryTorpNotEmpty && secondaryTorpNotEmpty && primaryTorpedoStore.fire(1)
+    allCondition = primaryTorpNotEmpty && secondaryTorpNotEmpty && primaryTorpedoStore.fire(1);
 	
     switch (firingMode) {
       case SINGLE:
