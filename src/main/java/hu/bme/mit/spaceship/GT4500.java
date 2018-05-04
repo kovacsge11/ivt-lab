@@ -37,19 +37,23 @@ public class GT4500 implements SpaceShip {
   public boolean fireTorpedo(FiringMode firingMode) {
 
     boolean firingSuccess = false;
-
+    
+    secondaryTorpNotEmpty = ! secondaryTorpedoStore.isEmpty();
+    primaryTorpNotEmpty = ! primaryTorpedoStore.isEmpty();
+    allCondition = primaryTorpNotEmpty && secondaryTorpNotEmpty && primaryTorpedoStore.fire(1)
+	
     switch (firingMode) {
       case SINGLE:
         if (wasPrimaryFiredLast) {
           // try to fire the secondary first
-          if (! secondaryTorpedoStore.isEmpty()) {
+          if (secondaryTorpNotEmpty) {
             firingSuccess = secondaryTorpedoStore.fire(1);
             wasPrimaryFiredLast = false;
           }
           else {
             // although primary was fired last time, but the secondary is empty
             // thus try to fire primary again
-            if (! primaryTorpedoStore.isEmpty()) {
+            if (primaryTorpNotEmpty) {
               firingSuccess = primaryTorpedoStore.fire(1);
               wasPrimaryFiredLast = true;
             }
@@ -59,14 +63,14 @@ public class GT4500 implements SpaceShip {
         }
         else {
           // try to fire the primary first
-          if (! primaryTorpedoStore.isEmpty()) {
+          if (primaryTorpNotEmpty) {
             firingSuccess = primaryTorpedoStore.fire(1);
             wasPrimaryFiredLast = true;
           }
           else {
             // although secondary was fired last time, but primary is empty
             // thus try to fire secondary again
-            if (! secondaryTorpedoStore.isEmpty()) {
+            if (secondaryTorpNotEmpty) {
               firingSuccess = secondaryTorpedoStore.fire(1);
               wasPrimaryFiredLast = false;
             }
@@ -79,7 +83,7 @@ public class GT4500 implements SpaceShip {
       case ALL:
         // try to fire both of the torpedo stores
         //implemented yay
-	if (! primaryTorpedoStore.isEmpty() && ! secondaryTorpedoStore.isEmpty() && primaryTorpedoStore.fire(1)) {
+	if (allCondition) {
 		firingSuccess = secondaryTorpedoStore.fire(1);
 	}
 
